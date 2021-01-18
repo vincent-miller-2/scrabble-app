@@ -1,18 +1,24 @@
-const Word = require("../models/Word");
+const Word = require('../models/Word');
 
-exports.getIndex = (req, res) => {
-  res.status(200).render("index");
+exports.getIndex = async (req, res) => {
+  const result = { exists: false };
+  const word = await Word.findOne({ name: req.query.word }).exec();
+
+  if (word) {
+    result.exists = true;
+    result.name = word.name;
+    result.definition = word.definition;
+  }
+
+  res.json(result);
 };
 
-exports.getAddWord = (req, res) => {
-  res.status(200).render("edit-word");
-};
+// Use this to populate word defintions if they don't exists
+exports.updateWordDefinition = async (req, res) => {
+  const query = { name: req.body.word };
+  const doc = await Word.findOneAndUpdate(query, {
+    definition: req.body.definition,
+  });
 
-exports.postWord = (req, res) => {
-  const { name, definition } = req.body;
-
-  const word = new Word({ name: name, definition: definition });
-  word.save();
-  console.log("Word Added to the database");
-  res.status(201).redirect("/");
+  res.status(204).send('Succefully Updated');
 };

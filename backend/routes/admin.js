@@ -5,8 +5,6 @@ const router = express.Router();
 
 router.get("/", adminController.getIndex);
 
-router.get("/add-word", adminController.getAddWord);
-
-router.post("/add-word", adminController.postWord);
+router.put("/update-word", adminController.updateWordDefinition);
 
 module.exports = router;

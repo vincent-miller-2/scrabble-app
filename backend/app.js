@@ -4,6 +4,7 @@ const path = require("path");
 const cors = require("cors");
 require("dotenv").config();
 const adminRoute = require("./routes/admin");
+const seedRoute = require("./routes/seed");
 
 const app = express();
 
@@ -17,6 +18,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/static", express.static(path.join(`${__dirname}/public`)));
 
 app.use("/", adminRoute);
+
+app.use("/seed", seedRoute);
 
 const port = process.env.PORT || 8080;
 
