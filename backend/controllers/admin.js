@@ -1,7 +1,7 @@
 const Word = require('../models/Word');
 
 exports.getIndex = async (req, res) => {
-  const result = { exists: false };
+  const result = { exists: false, name: req.query.word };
   const word = await Word.findOne({ name: req.query.word }).exec();
 
   if (word) {
